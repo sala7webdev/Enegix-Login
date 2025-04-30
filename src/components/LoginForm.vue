@@ -20,7 +20,7 @@ const canUserSubmit = computed(() => {
 </script>
 <template>
     <form @submit.prevent="emitLoginData" class="login-form">
-        <input type="text" v-model="loginData.username" placeholder="Email">
+        <input type="text" v-model="loginData.username" placeholder="Username">
         <input type="password" v-model="loginData.password" placeholder="Password">
         <span class="error" v-if="error">{{ error }}</span>
         <button type="submit" :disabled="!canUserSubmit">Login</button>
