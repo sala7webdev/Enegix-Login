@@ -2,19 +2,20 @@
 import { reactive, computed, defineEmits, defineProps } from 'vue'
 import { isValidUsername, isValidPassword } from "../utils/validationHelper.js";
 
-defineProps({
-    error: {
-        type: String
-    }
-})
-const emits = defineEmits(['submit'])
+defineProps<{
+    error: string
+}>();
+const emits = defineEmits<{
+    (e: 'submit', request: LoginCredentials): void
+}>()
+
 const emitLoginData = () => emits('submit', loginData)
-const loginData = reactive({
+const loginData: LoginCredentials = reactive({
     username: '',
     password: '',
 })
 
-const canUserSubmit = computed(() => {
+const canUserSubmit = computed<boolean>(() => {
     return isValidUsername(loginData.username) && isValidPassword(loginData.password)
 })
 </script>

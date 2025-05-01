@@ -1,26 +1,26 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 
 export function useOnlineStatus() {
-  const onlineState = ref(navigator.onLine);
+  const onlineState = ref<boolean>(navigator.onLine);
 
   // Update function
-  const updateNetworkStatus = () => {
+  const updateNetworkStatus = (): void => {
     onlineState.value = navigator.onLine;
   };
 
   // Event listeners
-  onMounted(() => {
+  onMounted(():void => {
     window.addEventListener('online', updateNetworkStatus);
     window.addEventListener('offline', updateNetworkStatus);
   });
 
-  onUnmounted(() => {
+  onUnmounted(():void => {
     window.removeEventListener('online', updateNetworkStatus);
     window.removeEventListener('offline', updateNetworkStatus);
   });
 
   // Computed property
-  const isOnline = computed(() => onlineState.value);
+  const isOnline = computed<boolean>(() => onlineState.value);
 
   return { isOnline };
 }

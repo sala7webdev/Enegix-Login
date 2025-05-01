@@ -5,7 +5,7 @@ import { updateDbUsers, getRecordsCount } from "./services/IDBService.js"
 import { fetchUsersFromAPI, syncUsers } from "./services/userService.js"
 import { MAX_RECORDS_COUNT, SYNC_DELAY } from "./utils/appConfigurations.js"
 import { userAdaptor } from "./services/adaptorHandler.js"
-import { useOnlineStatus } from './composables/useOnlineStatus';
+import { useOnlineStatus } from './composables/useOnlineStatus.js';
 import SyncModal from "./components/SyncModal.vue"
 const { isOnline } = useOnlineStatus();
 

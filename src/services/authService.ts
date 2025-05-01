@@ -3,13 +3,13 @@ import { loginPayload } from "@/utils/payloadHelper"
 import { APIClient } from "./APIClient"
 import { getUserFromDb } from "./IDBService"
 
-const onlineLogin = async ({ username, password }) => {
-    const loginBody = loginPayload(username, password)
-    const response = await APIClient.post('/api/login', loginBody)
-    if (response.success) localStorage.setItem('username', response.data.name);
+const onlineLogin = async ({ username, password }: LoginCredentials): Promise<LoginResponse> => {
+    const LoginCredentials = loginPayload(username, password)
+    const response = await APIClient.post<LoginResponse>('/api/login', LoginCredentials)
+    if (response?.success) localStorage.setItem('username', response?.data.name);
     return response
 }
-const offlineLogin = async ({ username, password }) => {
+const offlineLogin = async ({ username, password }: LoginCredentials): Promise<LoginResponse> => {
     const cachedUser = await getUserFromDb(username);
     if (!cachedUser) return {
         "success": false,
@@ -32,7 +32,7 @@ const offlineLogin = async ({ username, password }) => {
 
 
 }
-export const submitUserLogin = async ({ username, password }) => {
+export const submitUserLogin = async ({ username, password }: LoginCredentials): Promise<LoginResponse> => {
     if (navigator.onLine) return await onlineLogin({ username, password })
     return await offlineLogin({ username, password })
 }

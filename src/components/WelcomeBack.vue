@@ -1,5 +1,5 @@
-<script setup>
-const userName = () => localStorage.getItem('username')
+<script setup lang="ts">
+const userName = (): string | null => localStorage.getItem('username')
 </script>
 <template>
     <div class="welcome-container">

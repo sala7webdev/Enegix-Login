@@ -4,7 +4,7 @@ import LoginForm from "../components/LoginForm.vue"
 import WelcomeBack from "../components/WelcomeBack.vue"
 import { ref, watch } from 'vue'
 import { APIClient } from "../services/APIClient.js"
-import { submitUserLogin } from "../services/authService.js"
+import { submitUserLogin } from "../services/authService.ts"
 
 const error = ref("")
 const successMessage = ref("")

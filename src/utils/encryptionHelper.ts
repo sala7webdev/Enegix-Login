@@ -1,6 +1,9 @@
 import bcrypt from 'bcryptjs';
 
-const base64Decode = (str) => {
+interface DecryptionResult {
+    [key: string]: any
+}
+const base64Decode = (str: string): Uint8Array => {
     str = str.replace(/-/g, '+').replace(/_/g, '/');
     while (str.length % 4) {
         str += '=';
@@ -8,7 +11,7 @@ const base64Decode = (str) => {
     return new Uint8Array(Array.from(atob(str)).map(c => c.charCodeAt(0)));
 };
 // Deepseek AI Generated the decryptAESGCM Function
-export const decryptAESGCM = async (d, n, t) => {
+export const decryptAESGCM = async (d: string, n: string, t: string): Promise<DecryptionResult | null> => {
     try {
         const decodedD = base64Decode(d);
         const decodedN = base64Decode(n);
@@ -39,13 +42,13 @@ export const decryptAESGCM = async (d, n, t) => {
             combinedCiphertext
         );
         const rawData = new TextDecoder().decode(decrypted)
-        return JSON.parse(rawData);
+        return JSON.parse(rawData) as DecryptionResult;
     } catch (error) {
         console.error('Decryption failed:', error);
         return null;
     }
 };
 
-export const isPasswordMatched = async (plain, hashed) => {
+export const isPasswordMatched = async (plain: string, hashed: string): Promise<boolean> => {
     return await bcrypt.compare(plain, hashed);
 }
