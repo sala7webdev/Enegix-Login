@@ -1,3 +1,6 @@
+/**
+ * Global APP Configuarations
+ */
 export const MIN_PASSWORD_LENGTH: number = 4
 export const MIN_USERNAME_LENGTH: number = 4
 export const BASE_API:string = "https://calls.trolley.systems"

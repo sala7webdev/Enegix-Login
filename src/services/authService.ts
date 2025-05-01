@@ -3,12 +3,28 @@ import { loginPayload } from "@/utils/payloadHelper"
 import { APIClient } from "./APIClient"
 import { getUserFromDb } from "./IDBService"
 
+
+/**
+ * Handling user login when online
+ * Store username in LocalStorage
+ * @async
+ * @param {LoginCredentials} param 
+ * @returns {Promise<LoginResponse>} 
+ */
 const onlineLogin = async ({ username, password }: LoginCredentials): Promise<LoginResponse> => {
     const LoginCredentials = loginPayload(username, password)
     const response = await APIClient.post<LoginResponse>('/api/login', LoginCredentials)
     if (response?.success) localStorage.setItem('username', response?.data.name);
     return response
 }
+
+/**
+ * Hadling user login using cached users
+ * Store username in LocalStorage
+ * @async
+ * @param {LoginCredentials} param 
+ * @returns {Promise<LoginResponse>} 
+ */
 const offlineLogin = async ({ username, password }: LoginCredentials): Promise<LoginResponse> => {
     const cachedUser = await getUserFromDb(username);
     if (!cachedUser) return {
@@ -29,9 +45,15 @@ const offlineLogin = async ({ username, password }: LoginCredentials): Promise<L
         },
         "message": "Login successful"
     }
-
-
 }
+
+/**
+ * Controlling in which method should the user login proccess
+ * 
+ * @async
+ * @param {LoginCredentials} param
+ * @returns {Promise<LoginResponse>} 
+ */
 export const submitUserLogin = async ({ username, password }: LoginCredentials): Promise<LoginResponse> => {
     if (navigator.onLine) return await onlineLogin({ username, password })
     return await offlineLogin({ username, password })
